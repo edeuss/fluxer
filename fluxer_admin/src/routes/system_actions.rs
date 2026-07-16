@@ -9,16 +9,15 @@ use crate::{
             AppSetupConfigUpdateRequest, CreateRegistrationUrlRequest,
             GatewayRolloutConfigUpdateRequest, GatewayRolloutMode,
             InstanceAttachmentDecayUpdateRequest, InstanceBlueskyIntegrationUpdateRequest,
-            InstanceTraktIntegrationUpdateRequest,
             InstanceBlueskyKeyIntegrationUpdateRequest, InstanceCaptchaIntegrationUpdateRequest,
             InstanceConfigUpdateRequest, InstanceEmailIntegrationUpdateRequest,
             InstanceEmailSmtpIntegrationUpdateRequest, InstanceEmailSmtpTestRequest,
             InstanceGifIntegrationUpdateRequest, InstanceIntegrationsUpdateRequest,
             InstanceMediaUpdateRequest, InstancePolicyUpdateRequest,
             InstanceRegistrationConfigUpdateRequest, InstanceServicesUpdateRequest,
-            InstanceYoutubeIntegrationUpdateRequest, LimitConfigUpdateRequest, LimitRule,
-            LimitRuleFilters, PremiumMode, RegistrationMode, SsoConfigUpdateRequest,
-            VoiceE2eeScope,
+            InstanceTraktIntegrationUpdateRequest, InstanceYoutubeIntegrationUpdateRequest,
+            LimitConfigUpdateRequest, LimitRule, LimitRuleFilters, PremiumMode, RegistrationMode,
+            SsoConfigUpdateRequest, VoiceE2eeScope,
         },
     },
     config::AdminConfig,
@@ -572,7 +571,11 @@ fn build_services_update(form: &MultiValueForm) -> Option<InstanceServicesUpdate
     let youtube_enabled = parse_tristate("policy_service_youtube");
     let bluesky_enabled = parse_tristate("policy_service_bluesky");
     let trakt_enabled = parse_tristate("policy_service_trakt");
-    if gif_enabled.is_none() && youtube_enabled.is_none() && bluesky_enabled.is_none() && trakt_enabled.is_none() {
+    if gif_enabled.is_none()
+        && youtube_enabled.is_none()
+        && bluesky_enabled.is_none()
+        && trakt_enabled.is_none()
+    {
         None
     } else {
         Some(InstanceServicesUpdateRequest {
