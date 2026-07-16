@@ -45,10 +45,7 @@ function extractTraktUserIdentity(settings: TraktUserSettingsResponse): {traktUs
 	return {traktUserId, username};
 }
 
-async function readTraktJsonResponse<T extends Record<string, unknown>>(
-	response: Response,
-	label: string,
-): Promise<T> {
+async function readTraktJsonResponse(response: Response, label: string): Promise<Record<string, unknown>> {
 	if (!response.ok) {
 		const responseBody = await response.text();
 		throw new Error(`Trakt ${label} request failed with status ${response.status}: ${responseBody}`);
@@ -202,7 +199,7 @@ export class TraktOAuthService implements ITraktOAuthService {
 			headers: this.getTraktApiHeaders(),
 			body: JSON.stringify(body),
 		});
-		return readTraktJsonResponse<TraktTokenResponse>(response, 'token');
+		return readTraktJsonResponse(response, 'token') as TraktTokenResponse;
 	}
 
 	private async fetchUserSettings(accessToken: string): Promise<TraktUserSettingsResponse> {
@@ -210,6 +207,6 @@ export class TraktOAuthService implements ITraktOAuthService {
 			method: 'GET',
 			headers: this.getTraktApiHeaders(accessToken),
 		});
-		return readTraktJsonResponse<TraktUserSettingsResponse>(response, 'settings');
+		return readTraktJsonResponse(response, 'settings') as TraktUserSettingsResponse;
 	}
 }
