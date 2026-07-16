@@ -9,6 +9,7 @@ use crate::{
             AppSetupConfigUpdateRequest, CreateRegistrationUrlRequest,
             GatewayRolloutConfigUpdateRequest, GatewayRolloutMode,
             InstanceAttachmentDecayUpdateRequest, InstanceBlueskyIntegrationUpdateRequest,
+            InstanceTraktIntegrationUpdateRequest,
             InstanceBlueskyKeyIntegrationUpdateRequest, InstanceCaptchaIntegrationUpdateRequest,
             InstanceConfigUpdateRequest, InstanceEmailIntegrationUpdateRequest,
             InstanceEmailSmtpIntegrationUpdateRequest, InstanceEmailSmtpTestRequest,
@@ -570,13 +571,15 @@ fn build_services_update(form: &MultiValueForm) -> Option<InstanceServicesUpdate
     let gif_enabled = parse_tristate("policy_service_gif");
     let youtube_enabled = parse_tristate("policy_service_youtube");
     let bluesky_enabled = parse_tristate("policy_service_bluesky");
-    if gif_enabled.is_none() && youtube_enabled.is_none() && bluesky_enabled.is_none() {
+    let trakt_enabled = parse_tristate("policy_service_trakt");
+    if gif_enabled.is_none() && youtube_enabled.is_none() && bluesky_enabled.is_none() && trakt_enabled.is_none() {
         None
     } else {
         Some(InstanceServicesUpdateRequest {
             gif_enabled,
             youtube_enabled,
             bluesky_enabled,
+            trakt_enabled,
         })
     }
 }
@@ -639,6 +642,11 @@ fn build_integrations_update(form: &MultiValueForm) -> InstanceConfigUpdateReque
                 tos_uri: clean("integration_bluesky_tos_uri"),
                 policy_uri: clean("integration_bluesky_policy_uri"),
                 keys: bluesky_keys,
+            }),
+            trakt: Some(InstanceTraktIntegrationUpdateRequest {
+                enabled: Some(form.bool_value("integration_trakt_enabled")),
+                client_id: clean("integration_trakt_client_id"),
+                client_secret: clean("integration_trakt_client_secret"),
             }),
         }),
         media: None,

@@ -266,6 +266,7 @@ export interface APIConfig {
 			email?: string;
 		};
 		bluesky: BlueskyOAuthConfig;
+		trakt: TraktOAuthConfig;
 	};
 	cookie: {
 		domain: string;
@@ -383,4 +384,10 @@ export interface BlueskyOAuthConfig {
 	tos_uri: string;
 	policy_uri: string;
 	keys: Array<BlueskyOAuthKeyConfig>;
+}
+
+export interface TraktOAuthConfig {
+	enabled: boolean;
+	client_id: string;
+	client_secret: string;
 }

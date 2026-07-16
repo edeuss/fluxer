@@ -7,7 +7,7 @@ import {StatusSlate} from '@app/features/app/components/dialogs/shared/StatusSla
 import {computeVerticalDropPosition} from '@app/features/app/components/layout/dnd/DndDropPosition';
 import type {ConnectionDragItem} from '@app/features/app/components/layout/types/DndTypes';
 import {DND_TYPES} from '@app/features/app/components/layout/types/DndTypes';
-import {BLUESKY_PROVIDER_NAME, PRODUCT_NAME} from '@app/features/app/config/I18nDisplayConstants';
+import {BLUESKY_PROVIDER_NAME, PRODUCT_NAME, TRAKT_PROVIDER_NAME} from '@app/features/app/config/I18nDisplayConstants';
 import {useMergeRefs} from '@app/features/app/hooks/useMergeRefs';
 import RuntimeConfig from '@app/features/app/state/RuntimeConfig';
 import * as ConnectionCommands from '@app/features/connection/commands/ConnectionCommands';
@@ -21,6 +21,7 @@ import StreamerMode from '@app/features/streamer_mode/state/StreamerMode';
 import * as ModalCommands from '@app/features/ui/commands/ModalCommands';
 import {modal} from '@app/features/ui/commands/ModalCommands';
 import {BlueskyIcon} from '@app/features/ui/components/icons/BlueskyIcon';
+import {TraktIcon} from '@app/features/ui/components/icons/TraktIcon';
 import {UnverifiedConnectionIcon} from '@app/features/ui/components/icons/UnverifiedConnectionIcon';
 import {VerifiedConnectionIcon} from '@app/features/ui/components/icons/VerifiedConnectionIcon';
 import {Spinner} from '@app/features/ui/components/Spinner';
@@ -158,6 +159,8 @@ const ConnectionCard: React.FC<ConnectionCardProps> = observer(
 		const icon =
 			connection.type === ConnectionTypes.BLUESKY ? (
 				<BlueskyIcon size={20} data-flx="user.linked-accounts-tab.connection-card.bluesky-icon" />
+			) : connection.type === ConnectionTypes.TRAKT ? (
+				<TraktIcon size={20} data-flx="user.linked-accounts-tab.connection-card.trakt-icon" />
 			) : (
 				<GlobeSimpleIcon
 					size={20}
@@ -188,7 +191,13 @@ const ConnectionCard: React.FC<ConnectionCardProps> = observer(
 					/>
 				</div>
 				<Tooltip
-					text={connection.type === ConnectionTypes.BLUESKY ? BLUESKY_PROVIDER_NAME : i18n._(DOMAIN_DESCRIPTOR)}
+					text={
+						connection.type === ConnectionTypes.BLUESKY
+							? BLUESKY_PROVIDER_NAME
+							: connection.type === ConnectionTypes.TRAKT
+								? TRAKT_PROVIDER_NAME
+								: i18n._(DOMAIN_DESCRIPTOR)
+					}
 					data-flx="user.linked-accounts-tab.connection-card.tooltip"
 				>
 					<div
@@ -377,6 +386,19 @@ const LinkedAccountsTab: React.FC = observer(() => {
 									data-flx="user.linked-accounts-tab.platform-icon-button.add-connection"
 								>
 									<BlueskyIcon size={28} data-flx="user.linked-accounts-tab.bluesky-icon" />
+								</button>
+							</Tooltip>
+						)}
+						{RuntimeConfig.traktConnectionsEnabled && (
+							<Tooltip text={TRAKT_PROVIDER_NAME} data-flx="user.linked-accounts-tab.tooltip--trakt">
+								<button
+									type="button"
+									className={styles.platformIconButton}
+									onClick={() => handleAddConnection(ConnectionTypes.TRAKT)}
+									aria-label={i18n._(ADD_CONNECTION_DESCRIPTOR, {blueskyProviderName: TRAKT_PROVIDER_NAME})}
+									data-flx="user.linked-accounts-tab.platform-icon-button.add-trakt-connection"
+								>
+									<TraktIcon size={28} data-flx="user.linked-accounts-tab.trakt-icon" />
 								</button>
 							</Tooltip>
 						)}

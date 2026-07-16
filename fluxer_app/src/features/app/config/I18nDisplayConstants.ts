@@ -14,6 +14,7 @@ export const CANARY_TESTERS_COMMUNITY_NAME = `${PRODUCT_NAME} Testers`;
 export const VOICE_PROVIDER_NAME = 'LiveKit';
 export const PAYMENT_PROVIDER_NAME = 'Stripe';
 export const BLUESKY_PROVIDER_NAME = 'Bluesky';
+export const TRAKT_PROVIDER_NAME = 'Trakt';
 export const APP_STORE_NAME = 'App Store';
 export const GOOGLE_PLAY_NAME = 'Google Play';
 export const MACOS_SYSTEM_SETTINGS_NAME = 'System Settings';

@@ -3,6 +3,7 @@
 import {registerAdminControllers} from '../admin/controllers/index';
 import {AuthController} from '../auth/AuthController';
 import {BlueskyOAuthController} from '../bluesky/BlueskyOAuthController';
+import {TraktOAuthController} from '../trakt/TraktOAuthController';
 import {Config} from '../Config';
 import {CanaryTesterController} from '../canary_tester/CanaryTesterController';
 import {ChannelController} from '../channel/ChannelController';
@@ -49,6 +50,7 @@ export function registerControllers(routes: HonoApp, config: APIConfig): void {
 	ChannelController(routes);
 	ConnectionController(routes);
 	BlueskyOAuthController(routes);
+	TraktOAuthController(routes);
 	InstanceController(routes);
 	OpenAPIController(routes);
 	DownloadController(routes);
